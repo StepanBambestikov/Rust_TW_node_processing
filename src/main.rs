@@ -1,6 +1,5 @@
 mod genome;
 mod genome_service;
-mod sequence_analyzer;
 
 use std::collections::HashMap;
 use std::fs::File;
@@ -16,7 +15,8 @@ fn main() {
     let json_file_name = args[1].clone();
     let stem_size = args[2].clone().to_owned();
     let i_stem_size = stem_size.parse::<i32>().unwrap();
-    let file_names: Vec<String> = args.iter().skip(3).cloned().collect();
+    let processing_type = args[3].clone().to_owned();
+    let file_names: Vec<String> = args.iter().skip(4).cloned().collect();
     let organism_names = get_organism_names(file_names.clone(), json_file_name);
     let genome_number = file_names.len();
 
@@ -32,7 +32,7 @@ fn main() {
     }
 
     //output_nodes general heap writing
-    let mut file = File::create("output_nodes/output_nodes_".to_owned() + &stem_size + ".txt").expect("Unable to create file for saving");
+    let mut file = File::create("output_nodes/".to_owned() + &processing_type + "_output_nodes_" + &stem_size + ".txt").expect("Unable to create file for saving");
     file.write_all(genome_heap.get_data().as_ref()).expect("Unable to write data");
 }
 

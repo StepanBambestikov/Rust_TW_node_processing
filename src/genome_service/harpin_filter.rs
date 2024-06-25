@@ -15,7 +15,10 @@ fn maker_inverse_comp_sequence(seq: &str) -> String{
 }
 
 pub(crate) fn check_if_sequence_is_harpin(sequence: &String, stem_size: i32) -> bool{
-    let mut current_index = 8;
+    let mut current_index: usize = (stem_size + 2).try_into().unwrap();
+    if stem_size > 10{
+        current_index = (stem_size + 3).try_into().unwrap();
+    }
     while current_index < sequence.len() - 8{
         let mut distance = 0;
         if current_index < sequence.len() / 2{

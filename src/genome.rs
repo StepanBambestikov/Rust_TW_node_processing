@@ -1,14 +1,12 @@
-use std::collections::hash_map::{IntoIter, Iter};
+use std::collections::hash_map::Iter;
 use std::fs;
 use std::collections::HashMap;
 use std::fs::File;
-use crate::genome_service::structure::SubsequencePair;
 use std::io::Write;
 
 pub(crate) struct HashGenome{
     unique_count: HashMap<String, usize>,
     sequence_count: usize,
-    print_values_count: usize,
     file_name: String,
     filtered_file: File,
     filtered_coords_file: File,
@@ -18,9 +16,12 @@ pub(crate) struct HashGenome{
 pub(crate) fn new(file_name: &str, stem_size: i32) -> HashGenome{
     let file_content = fs::read_to_string(file_name).expect("Unable to read file");
     //output files creation
-    let filtered_file = File::create(format!("{file_name}_results/{file_name}_filtered.txt"))
+    // println!("format{}_results/{}_filtered.txt", file_name, file_name);
+    let file_folder = &file_name[..file_name.len() - 4];
+    std::fs::create_dir_all(file_folder).unwrap();
+    let filtered_file = File::create(format!("{file_folder}/filtered.txt"))
         .expect("Unable to create filtered file for saving");
-    let filtered_coords_file = File::create(format!("{file_name}_results/{file_name}_filtered_coords.txt"))
+    let filtered_coords_file = File::create(format!("{file_folder}/filtered_coords.txt"))
         .expect("Unable to create filtered coords file for saving");
 
     filtered_file.set_len(0)
@@ -31,7 +32,6 @@ pub(crate) fn new(file_name: &str, stem_size: i32) -> HashGenome{
     let mut genome = HashGenome{
         unique_count: HashMap::new(),
         sequence_count: 0,
-        print_values_count: 1000,
         file_name: file_name.parse().unwrap(),
         filtered_file,
         filtered_coords_file,
@@ -45,35 +45,20 @@ pub(crate) fn new(file_name: &str, stem_size: i32) -> HashGenome{
             line_block.0 = line.parse().unwrap();
         } else{
             line_block.1 = line.parse().unwrap();
+            genome.process_line_block(line_block.clone());
         }
-        genome.process_line_block(line_block.clone());
     }
     return genome
 }
 
 impl HashGenome{
-    pub fn find(&self, sequence: &str) -> SubsequencePair {
-        let mut output = SubsequencePair{
-            sequence: sequence.parse().unwrap(),
-            repetition_number: 0,
-        };
-        let answer = self.unique_count.get(&*sequence);
-        if let Some(x) = answer {
-            output.repetition_number = *x;
-        }
-        return output
-    }
 
     pub fn save_to_file(&self){
         let mut output = String::new();
         output.push_str(&*format!("Unique number: {}\n", self.unique_count.keys().len()));
         let mut sorted_values: Vec<_> = self.unique_count.iter().collect();
         output.push_str(&*format!("All sequence number: {}\n", self.sequence_count));
-        // output.push_str(&*format!("Ratio: {}\n", self.unique_count.keys().len() * 100 / self.sequence_count));
         sorted_values.sort_by(|a, b| b.1.cmp(&a.1));
-        // for (i, (key, value)) in sorted_values.iter().take(self.print_values_count).enumerate() {
-        //     output.push_str(&*format!("{}: {} - {}\n", i+1, key, value));
-        // }
         for (i, (key, value)) in sorted_values.iter().enumerate() {
             output.push_str(&*format!("{}: {} - {}\n", i+1, key, value));
         }
@@ -101,10 +86,6 @@ impl HashGenome{
         //processing for unique heap
         *self.unique_count.entry(line_block.1).or_insert(0) += 1;
         self.sequence_count += 1;
-    }
-
-    pub fn into_iter(self) -> IntoIter<String, usize> {
-        self.unique_count.into_iter()
     }
 }
 

@@ -47,8 +47,6 @@ impl<'a> GenomeHeap<'a>{
             output.push_str(",");
             for current_genome_index in 0..self.genome_names.len(){
                 output.push_str(&*format!("{},", value.1[current_genome_index]));
-                // output.push_str(&*format!(" {}, ",
-                //                           self.genome_names[current_genome_index], value.1[current_genome_index]));
             }
             output.push('\n');
         }
