@@ -57,7 +57,7 @@ fn get_organism_names(file_names: Vec<String>, json_file_name: String) -> Vec<St
     let organism_map = parse_json_file(json_file_name);
     for current_file_name in &file_names{
         let parts: Vec<&str> = current_file_name.split("/").collect();
-        organism_names.push(organism_map[parts[2]].as_str().to_string());
+        organism_names.push(organism_map[parts[parts.len() - 2]].as_str().to_string());
     }
     return organism_names
 }
