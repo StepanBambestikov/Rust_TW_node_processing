@@ -120,9 +120,11 @@ The project also has a bash script for processing all genomic files inside the r
 ### Run the script
 
    ```bash
-   bash general_proc.sh 
+   bash general_proc.sh json_file_path program_path processing_type search_dir
    ```
 
 Where:
+   - `json_file_path`: Rellative path to the json file with the organism names
    - `program_path`: Rellative path to the program
-   - `path_to_data_folder`: Relative path to data folder
+   - `processing_type`: Designation of the current processing
+   - `search_dir`: Dir with analyzed files
