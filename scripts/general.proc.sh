@@ -1,14 +1,16 @@
 #!bin/bash
 
 FILES=()
-json_file=./for_analysis/assembly_data_report.jsonl
-program_path=./rust_processing/target/debug/dna_analisys
-processing_type=shuffled
+json_file=$1
+program_path=$2
+processing_type=$3
+search_dir=$4
 for current_stem_size in {5..20}
 do
     FILES=()
     echo $current_stem_size
-    for dir in ./path_to_folder/*
+    echo "$search_dir"
+    for dir in "$search_dir"/*
     do
         if [ -d "$dir" ]
         then
@@ -17,6 +19,7 @@ do
                 if [[ $file == *_${current_stem_size}_0_nodes_new.txt ]]
                 then
                     FILES+=($file)
+                    echo $file
                 fi
             done
         fi
