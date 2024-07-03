@@ -112,6 +112,12 @@ Where:
    - `processing_type`: a reminder for the names of the output files does not affect the progress of the program
    - `file*`: input files with pseudo nodes
 
+The analyzed file should be contained in a folder with the name of the organism code, according to which the name of the organism is searched in the json file. For example:
+   ```bash
+    GCF_950005125.1 <- containing folder
+    ├── GCF_950005125.1_mChiNiv1.1_genomic.fna_10_0_nodes_new.txt <- analysing file
+   ```
+
 ## Bash script for analyzing multiple files
 
 The project also has a bash script for processing all genomic files inside the required folder. Processing takes place over all duplex sections from 5 to 20
