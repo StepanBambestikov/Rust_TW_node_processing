@@ -54,6 +54,8 @@ pub(crate) fn new(file_name: &str, stem_size: i32) -> HashGenome{
 impl HashGenome{
 
     pub fn save_to_file(&self){
+        
+        //We save the received information to a file with unique sequences
         let mut output = String::new();
         output.push_str(&*format!("Unique number: {}\n", self.unique_count.keys().len()));
         let mut sorted_values: Vec<_> = self.unique_count.iter().collect();
