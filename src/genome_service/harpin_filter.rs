@@ -15,6 +15,19 @@ fn maker_inverse_comp_sequence(seq: &str) -> String{
 }
 
 pub(crate) fn check_if_sequence_is_harpin(sequence: &String, stem_size: i32) -> bool{
+    //The function finds the maximum length of the complementary parts
+    //by varying the point of the "fold", like:
+    //                 CCCTTT   GCCCTTT  GGCCCTTT
+    //AAAGGGCCCTTT :   |     - >|      ->|      -> ...
+    //                 GGGAAA   GGAAA    GAAA
+    //
+    //For each section being viewed, complementarity is determined by analyzing 
+    //the coincidence of the first part and the complementary analogue of the second
+    //
+    //A valid complementarity length is considered to be a connection without gaps
+    //
+    //The validity of the maximum section is checked to satisfy certain rules
+    
     let mut current_index: usize = (stem_size + 2).try_into().unwrap();
     if stem_size > 10{
         current_index = (stem_size + 3).try_into().unwrap();
