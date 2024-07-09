@@ -56,6 +56,9 @@ fn get_organism_names(file_names: Vec<String>, json_file_name: String) -> Vec<St
     let mut organism_names = Vec::new();
     let organism_map = parse_json_file(json_file_name);
     for current_file_name in &file_names{
+        
+        //Using the found encodings, we are trying to find 
+        //the names of the specified organisms in the map
         let parts: Vec<&str> = current_file_name.split("/").collect();
         organism_names.push(organism_map[parts[parts.len() - 2]].as_str().to_string());
     }
