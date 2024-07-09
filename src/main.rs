@@ -16,7 +16,8 @@ fn main() {
     let stem_size = args[2].clone().to_owned();
     let i_stem_size = stem_size.parse::<i32>().unwrap();
     let processing_type = args[3].clone().to_owned();
-    let file_names: Vec<String> = args.iter().skip(4).cloned().collect();
+    let output_file_folder = args[4].clone().to_owned();
+    let file_names: Vec<String> = args.iter().skip(5).cloned().collect();
     let organism_names = get_organism_names(file_names.clone(), json_file_name);
     let genome_number = file_names.len();
 
@@ -32,7 +33,8 @@ fn main() {
     }
 
     //output_nodes general heap writing
-    let mut file = File::create("output_nodes/".to_owned() + &processing_type + "_output_nodes_" + &stem_size + ".txt").expect("Unable to create file for saving");
+    std::fs::create_dir_all(output_file_folder).unwrap();
+    let mut file = File::create(output_file_folder.to_owned() + &processing_type + "_output_nodes_" + &stem_size + ".txt").expect("Unable to create file for saving");
     file.write_all(genome_heap.get_data().as_ref()).expect("Unable to write data");
 }
 
