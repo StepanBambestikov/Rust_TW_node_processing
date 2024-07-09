@@ -103,13 +103,14 @@ The file is a table with all aquatic organisms and pseudo-nodes. The table shows
 ### 3. Run the program
 
    ```bash
-    program_path json_file current_stem_size processing_type file1 file2 file3 . . .
+    program_path json_file current_stem_size processing_type output_file_folder file1 file2 file3 . . .
    ```
 Where:
    - `program_path.fna`: path to the compiled program
    - `json_file`: json file with organisms names
    - `current_stem_size`: duplex area size
    - `processing_type`: a reminder for the names of the output files does not affect the progress of the program
+   - `output_file_folder`: folder where output file with all genome pseudo_nodes will be
    - `file*`: input files with pseudo nodes
 
 The analyzed file should be contained in a folder with the name of the organism code, according to which the name of the organism is searched in the json file. For example:
