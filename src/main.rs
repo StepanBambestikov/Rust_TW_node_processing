@@ -33,7 +33,7 @@ fn main() {
     }
 
     //output_nodes general heap writing
-    std::fs::create_dir_all(output_file_folder).unwrap();
+    std::fs::create_dir_all(output_file_folder.clone()).unwrap();
     let mut file = File::create(output_file_folder.to_owned() + &processing_type + "_output_nodes_" + &stem_size + ".txt").expect("Unable to create file for saving");
     file.write_all(genome_heap.get_data().as_ref()).expect("Unable to write data");
 }
